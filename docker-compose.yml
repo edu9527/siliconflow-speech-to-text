@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  speech-to-text:
+    image: speech-to-text:latest
+    container_name: speech-to-text
+    environment:
+      - S2T_API_URL = your-speech-to-text-api-endpoint-url
+      # 语音转录 API 地址，可选配置，默认是硅基(https://api.siliconflow.cn/v1/audio/transcriptions)
+      - S2T_API_KEY = your-speech-to-text-api-key
+      # 语音转录 API Key，必须配置
+      - S2T_MODEL = your-speech-to-text-model
+      # 语音转录模型，可选配置，默认是 FunAudioLLM/SenseVoiceSmall
+      - OPT_API_URL = your-text-optimizing-api-endpoint-url
+      # 文本校准优化 API 地址，可选配置，不配置不启用优化，直接转出转录结果
+      - OPT_API_KEY = your-text-optimizing-api-key
+      # 文本校准优化 API Key
+      - OPT_MODE = your-text-optimizing-model
+      # 文本校准优化模型
+      - API_ACCESS_TOKEN = your-api-auth-key
+      # API 密钥
+    ports:
+      - "your-port:5000"+

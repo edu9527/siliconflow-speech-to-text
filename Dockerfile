@@ -5,7 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 # 安装运行所需的依赖包（Flask、requests、waitress 只需纯 Python）
-RUN apk add --no-cache gcc musl-dev libffi-dev
+# RUN apk add --no-cache gcc musl-dev libffi-dev
 
 # 设置工作目录
 WORKDIR /app
