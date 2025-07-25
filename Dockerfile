@@ -1,27 +1,28 @@
-# 使用官方的 Python 运行时作为基础镜像
-FROM python:3.9-slim
+FROM python:3.9-alpine
+
+# 避免交互提示、缓存写入
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# 安装运行所需的依赖包（Flask、requests、waitress 只需纯 Python）
+RUN apk add --no-cache gcc musl-dev libffi-dev
 
 # 设置工作目录
 WORKDIR /app
 
-# 将 requirements.txt 复制到工作目录
+# 安装依赖
 COPY requirements.txt .
-
-# 安装 Python 依赖
-# 使用 --no-cache-dir 减小镜像大小
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 将主应用脚本复制到工作目录
-COPY app.py . 
+# 复制项目代码
+COPY . .
 
-# 将模板文件复制到容器内的 templates 目录
-COPY templates/ /app/templates/
+# 可选：删除 pyc 缓存等临时文件
+RUN find /app -type d -name '__pycache__' -exec rm -r {} + || true \
+    && find /app -name '*.pyc' -delete || true
 
-# 将静态文件复制到容器内的 static 目录
-COPY static/ /app/static/
-
-# 暴露应用运行的端口
+# 显式声明服务端口
 EXPOSE 5000
 
-# 运行应用
-CMD ["python", "app.py"]
+# 使用 waitress 作为生产服务启动器
+CMD ["waitress-serve", "--host=0.0.0.0", "--port=5000", "app:app"]
