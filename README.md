@@ -64,7 +64,7 @@
           # 文本校准优化 API 地址，可选配置，不配置不启用优化，直接转出转录结果
           - OPT_API_KEY = your-text-optimizing-api-key
           # 文本校准优化 API Key
-          - OPT_MODE = your-text-optimizing-model
+          - OPT_MODEL = your-text-optimizing-model
           # 文本校准优化模型
           - API_ACCESS_TOKEN = your-api-auth-key
           # API 密钥
